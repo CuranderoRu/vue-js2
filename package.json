@@ -1,0 +1,46 @@
+{
+    "name": "vue-js2",
+    "version": "1.0.0",
+    "description": "vue js shop",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js",
+        "build": "webpack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CuranderoRu/vue-js2.git"
+    },
+    "author": "Sergei Ogarkov",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/CuranderoRu/vue-js2/issues"
+    },
+    "homepage": "https://github.com/CuranderoRu/vue-js2#readme",
+    "dependencies": {
+        "core-js": "^3.8.0",
+        "vue": "^2.6.12",
+        "vue-router": "^3.4.9"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.9",
+        "@babel/plugin-proposal-class-properties": "^7.12.1",
+        "@babel/preset-env": "^7.12.7",
+        "autoprefixer": "^10.0.4",
+        "babel-loader": "^8.2.2",
+        "css-loader": "^5.0.1",
+        "html-webpack-plugin": "^4.5.0",
+        "mini-css-extract-plugin": "^1.3.1",
+        "postcss": "^8.1.10",
+        "postcss-loader": "^4.1.0",
+        "sass": "^1.29.0",
+        "sass-loader": "^10.1.0",
+        "style-loader": "^2.0.0",
+        "vue-loader": "^15.9.5",
+        "vue-template-compiler": "^2.6.12",
+        "webpack": "^5.8.0",
+        "webpack-cli": "^4.2.0",
+        "webpack-dev-server": "^3.11.0"
+    }
+}
