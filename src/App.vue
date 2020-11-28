@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <div class="greeting">Hello {{ greeting }}</div>
+        <div class="greeting">Initial {{ greeting }}</div>
     </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
     data(){
         return {
-            greeting: 'world'
+            greeting: 'config'
         }
     }
 }
