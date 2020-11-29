@@ -20,15 +20,16 @@ export default {
   data() {
     return {
       displayMode: 1,
-      pageIndex: this.setPageIndex(),
+      pageIndex: 0,
       smallImagePath: "./img/small/",
-      productsArray: this.fetchProducts(),
+      productsArray: [],
     };
   },
+  mounted: function() {
+    this.pageIndex = 0;
+    this.fetchProducts();
+  },
   methods: {
-    setPageIndex(){
-        this.pageIndex = 0;
-    },
     fetchProducts() {
         this.productsArray = [];
         let prom = fetch(`/js/database${this.pageIndex}.json`)
@@ -41,7 +42,6 @@ export default {
             .catch(err => {
                 console.warn('Check your network connection', err);
             });
-        return this.productsArray;
     },
   },
 };
