@@ -1,33 +1,56 @@
 <template>
   <main>
-      {{productsArray.length}}
-    <section id="mainList" class="main-section" v-if="displayMode === 1 || displayMode === 2">
-      <span id="mainListHeader" class="main-section-header">Latest products</span>
-      <div id="latestList" class="main-section-items"></div>
-    </section>
-    <section class="main-section" v-if="displayMode === 1">
+    <ProductItems :type="'latestList'" v-if="getDisplayMode === 1 || getDisplayMode === 2" />
+    
+    <!-- <section
+      id="mainList"
+      class="main-section"
+      v-if="getDisplayMode === 1 || getDisplayMode === 2">
+      <span id="mainListHeader" class="main-section-header">{{ getFilterName }}</span>
+      <div id="latestList" class="main-section-items">
+        <ProductItems :type="'latestList'" />
+      </div>
+    </section> -->
+
+    <ProductItems :type="'popularList'" v-if="getDisplayMode === 1" />
+    
+    <!-- <section class="main-section" v-if="getDisplayMode === 1">
       <span class="main-section-header">Popular products</span>
-      <div id="popularList" class="main-section-items"></div>
+      <div id="popularList" class="main-section-items">
+        <ProductItems :type="'popularList'" />
+      </div>
+    </section> -->
+
+    <Cart v-if="getDisplayMode === 3" />
+    
+    <section class="main-support" v-if="getDisplayMode === 4">
+      <ContactForm />
     </section>
-    <section class="cart" v-if="displayMode === 3">
-      <!-- <div class="cart-item"><span>ESP8266 NodeMCU v3</span><a class="cart-item-button" href="">-</a><span>1</span> <a class="cart-item-button" href="">+</a> <span> x </span><span>299.97</span><span> = </span><span>299.97 ₽</span><a class="cart-item-button" href="">X</a></div> -->
-    </section>
-    <section class="main-support" v-if="displayMode === 4"></section>
   </main>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
+import ContactForm from "./ContactForm";
+import ProductItems from "./ProductItems";
+import Cart from "./Cart";
+
 export default {
-    props: {
-        displayMode: Number,
-        productsArray: Object
-    },
-    data: {
-        // displayMode: 1
+  components: {
+    ContactForm,
+    ProductItems,
+    Cart,
+  },
+  computed: {
+      ...mapGetters('products', [
+          'getDisplayMode',
+          'getFilterName',
+      ])
     }
 };
 </script>
 
 <style lang="scss">
-    @import "../SASS/main";
+@import "../SASS/main";
 </style>

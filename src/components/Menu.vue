@@ -77,13 +77,13 @@ export default {
                     ],
                 },
                 {
-                    href: "#",
+                    href: "about",
                     label: "About",
                     category: "About",
                     submenu: [],
                 },
                 {
-                    href: "#",
+                    href: "blog",
                     label: "Blog",
                     category: "Blog",
                     submenu: [],
