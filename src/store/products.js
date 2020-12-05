@@ -99,13 +99,15 @@ const actions = {
         }
     },
     fetchProducts({ state, commit }) {
-        fetch(`/js/database${state.pageIndex}.json`)
+        fetch(`/itemslist/${state.pageIndex}`)
             .then(response => {
                 return response.json();
             })
             .then(data => {
-                commit('setpageIndex', state.pageIndex + 1);
-                commit('setProductsfromArray', data.data);
+                if (data.data.length) {
+                    commit('setpageIndex', state.pageIndex + 1);
+                    commit('setProductsfromArray', data.data);
+                }
             })
             .catch(err => {
                 commit('setpageIndex', state.pageIndex - 1);
@@ -139,6 +141,18 @@ const actions = {
             dispatch('fetchProducts');
         }
         commit('setDisplayLimit', displayLimit);
+    },
+    postMessage({ state }, data) {
+        fetch('/message', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                console.log(res);
+            })
     }
 };
 
@@ -148,7 +162,6 @@ const mutations = {
             state.products[el.id] = el;
         });
         state.displayMode = 1;
-        console.log(state.products);
     },
     setpageIndex(state, pageIndex) {
         state.pageIndex = pageIndex;

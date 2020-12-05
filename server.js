@@ -1,29 +1,42 @@
-const http = require('http')
-const fs = require('fs')
+const express = require('express');
+const fs = require('fs');
+const app = express();
+const bodyParser = require('body-parser');
 
-const server = http.createServer((req, res) => {
-    let body;
-    let path = req.url;
-    if (path === "/") {
-        path = '/index.html'
-    }
-    try {
-        path = decodeURI(path);
-    } catch (e) { // catches a malformed URI
-        console.error(e);
-    }
-    try {
-        body = fs.readFileSync('./public' + path);
-        res.end(body);
-    } catch (err) {
-        res.statusCode = 404;
-        res.end('File not found');
-    }
+app.use(express.static('./public'));
+app.use(bodyParser.json());
 
-})
+const port = process.env.PORT || 3001;
 
-const port = process.env.PORT || 3001
+app.listen(port, () => {
+    console.log(`Server started at port ${port}`);
+});
 
-server.listen(port)
+app.get('/itemslist/:page', (req, res) => {
+    const page = req.params.page;
+    fs.readFile(`./public/database/database${page}.json`, 'utf8', (err, data) => {
+        if (err !== null) {
+            res.statusCode = 404;
+            res.send('{ "data": []}');
+        } else {
+            res.send(data);
+        }
+    })
+});
 
-console.log(`Server started on port ${port}`)
+app.post('/message', (req, res) => {
+
+    const filePath = './public/database/messages.json';
+
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        const messages = JSON.parse(data || '[""]');
+        let message = req.body;
+        messages[0] = message;
+        fs.writeFile(filePath, JSON.stringify(messages), (err) => {
+            if (err) {
+                console.log(err);
+            }
+            res.send(messages);
+        })
+    })
+});
