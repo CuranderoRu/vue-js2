@@ -1,5 +1,6 @@
 const state = {
     displayMode: 0,
+    displayLimit: 2,
     pageIndex: 0,
     smallImagePath: './img/small/',
     filterName: '',
@@ -33,7 +34,7 @@ const getters = {
         inputArr.sort((a, b) => {
             return a.id - b.id;
         });
-        let limit = state.filterName ? inputArr.length : 2;
+        let limit = state.filterName ? inputArr.length : state.displayLimit;
         inputArr.reduce((res, cur) => {
             if (res.length <= limit) {
                 res.push(cur.id);
@@ -107,6 +108,7 @@ const actions = {
                 commit('setProductsfromArray', data.data);
             })
             .catch(err => {
+                commit('setpageIndex', state.pageIndex - 1);
                 console.warn('Check your network connection', err);
             });
     },
@@ -130,6 +132,13 @@ const actions = {
     initialView({ state, commit }) {
         commit('setFilterCategory', '');
         commit('setDisplayMode', state.displayModeEnum.initial);
+    },
+    loadMore({ state, commit, dispatch }) {
+        let displayLimit = state.displayLimit + 3;
+        if (displayLimit > Object.keys(state.products).length) {
+            dispatch('fetchProducts');
+        }
+        commit('setDisplayLimit', displayLimit);
     }
 };
 
@@ -139,6 +148,7 @@ const mutations = {
             state.products[el.id] = el;
         });
         state.displayMode = 1;
+        console.log(state.products);
     },
     setpageIndex(state, pageIndex) {
         state.pageIndex = pageIndex;
@@ -154,6 +164,9 @@ const mutations = {
     },
     setFilterCategory(state, category) {
         state.filterName = category;
+    },
+    setDisplayLimit(state, displayLimit) {
+        state.displayLimit = displayLimit;
     },
 };
 
